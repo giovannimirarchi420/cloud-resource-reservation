@@ -1,0 +1,6 @@
+[submodule "reservation-be"]
+	path = reservation-be
+	url = https://github.com/giovannimirarchi420/reservation-be
+[submodule "reservation-fe"]
+	path = reservation-fe
+	url = https://github.com/giovannimirarchi420/reservation-fe
