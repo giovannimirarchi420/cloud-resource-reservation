@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  # Frontend React application
+  frontend:
+    image: node:19-alpine
+    container_name: reservation-frontend
+    working_dir: /app
+    volumes:
+      - ./reservation-fe:/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:8080/api
+      - REACT_APP_KEYCLOAK_URL=http://localhost:8180
+      - REACT_APP_KEYCLOAK_REALM=resource-management
+      - REACT_APP_KEYCLOAK_CLIENT_ID=resource-management-app
+    depends_on:
+      - backend
+      - keycloak
+    networks:
+      - reservation-network
+
+  # Backend service
+  backend:
+    image: eclipse-temurin:17-jdk
+    container_name: reservation-backend
+    working_dir: /app
+    volumes:
+      - ./reservation-be:/app
+    ports:
+      - "8080:8080"
+    command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=pro"
+    environment:
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
+      - KEYCLOAK_REALM=resource-management
+      - KEYCLOAK_CLIENT_ID=reservation-backend
+      - KEYCLOAK_CLIENT_SECRET=a-super-mega-secret
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=reservation_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - postgres
+      - keycloak
+    networks:
+      - reservation-network
+
+  # PostgreSQL database for both Keycloak and Backend
+  postgres:
+    image: postgres:15-alpine
+    container_name: reservation-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=keycloak
+      - POSTGRES_MULTIPLE_DATABASES=reservation_db 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-multiple-postgres-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-postgres-dbs.sh
+    entrypoint: >
+      bash -c "
+        chmod +x /docker-entrypoint-initdb.d/init-multiple-postgres-dbs.sh
+        docker-entrypoint.sh postgres
+      "
+    ports:
+      - "5432:5432"
+    networks:
+      - reservation-network
+
+  # Keycloak service
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1
+    container_name: reservation-keycloak
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=postgres
+      - KC_HOSTNAME=localhost
+      - KC_HTTP_PORT=8180
+    volumes:
+      - ./keycloak/import:/opt/keycloak/data/import
+    ports:
+      - "8180:8180"
+    depends_on:
+      - postgres
+    networks:
+      - reservation-network
+
+networks:
+  reservation-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
