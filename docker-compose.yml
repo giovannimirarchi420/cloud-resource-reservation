@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Frontend React application
   frontend:
@@ -36,7 +34,7 @@ services:
     environment:
       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
       - KEYCLOAK_REALM=resource-management
-      - KEYCLOAK_CLIENT_ID=reservation-backend
+      - KEYCLOAK_CLIENT_ID=resource-management-app
       - KEYCLOAK_CLIENT_SECRET=a-super-mega-secret
       - FRONTEND_APP_URL=http://frontend:3000
       - DB_HOST=postgres
