@@ -11,8 +11,8 @@ services:
     command: sh -c "npm install && npm start"
     environment:
       - NODE_ENV=development
-      - REACT_APP_API_URL=http://localhost:8080/api
-      - REACT_APP_KEYCLOAK_URL=http://localhost:8180
+      - REACT_APP_API_URL=http://backend:8080/api
+      - REACT_APP_KEYCLOAK_URL=http://keycloak:8180
       - REACT_APP_KEYCLOAK_REALM=resource-management
       - REACT_APP_KEYCLOAK_CLIENT_ID=resource-management-app
     depends_on:
@@ -84,7 +84,7 @@ services:
       - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=postgres
-      - KC_HOSTNAME=localhost
+      - KC_HOSTNAME=keycloak
       - KC_HTTP_PORT=8180
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
