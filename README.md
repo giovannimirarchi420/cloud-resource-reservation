@@ -1,98 +1,120 @@
 # Reservation System Development Environment
 
-Questo ambiente di sviluppo configura tutti i servizi necessari per lavorare sul sistema di prenotazione risorse cloud, inclusi:
-- Frontend React (reservation-fe)
+This development environment configures all the services needed to work on the cloud resource reservation system, including:
+- React Frontend (reservation-fe)
 - Backend (reservation-be)
-- Keycloak per l'autenticazione
-- PostgreSQL per i database
+- Keycloak for authentication
+- PostgreSQL for databases
 
-## Requisiti
+## Requirements
 
 - Docker
 - Docker Compose
 
-## Struttura del progetto
+## Project Structure
 
 ```
 project-root/
-├── docker-compose.yml           # Configurazione Docker Compose
-├── init-multiple-postgres-dbs.sh # Script inizializzazione database
+├── docker-compose.yml           # Docker Compose configuration
+├── init-multiple-postgres-dbs.sh # Database initialization script
 ├── keycloak/
 │   └── import/
-│       └── resource-management-realm.json # Configurazione realm Keycloak
-├── reservation-fe/              # Codice sorgente frontend
-└── reservation-be/              # Codice sorgente backend
+│       └── resource-management-realm.json # Keycloak realm configuration
+├── reservation-fe/              # Frontend source code
+└── reservation-be/              # Backend source code
 ```
 
-## Istruzioni per l'avvio
+## Setup Instructions
 
-1. Assicurati che le cartelle `reservation-fe` e `reservation-be` contengano il codice sorgente rispettivo
-2. Rendi eseguibile lo script di inizializzazione del database:
+1. Make sure the `reservation-fe` and `reservation-be` folders contain the respective source code
+2. Make the database initialization script executable:
    ```bash
    chmod +x init-multiple-postgres-dbs.sh
    ```
-3. Avvia l'ambiente di sviluppo:
+3. Modify your hosts file to redirect "backend" and "keycloak" to your local machine:
+   - For Linux/macOS:
+     ```bash
+     sudo nano /etc/hosts
+     ```
+     Add these lines:
+     ```
+     127.0.0.1 backend
+     127.0.0.1 keycloak
+     ```
+     Save the file (Ctrl+O, then Enter) and exit (Ctrl+X)
+     
+   - For Windows:
+     - Open Notepad as Administrator
+     - Open the file `C:\Windows\System32\drivers\etc\hosts`
+     - Add these lines:
+       ```
+       127.0.0.1 backend
+       127.0.0.1 keycloak
+       ```
+     - Save the file
+     
+4. Start the development environment:
    ```bash
    docker-compose up -d
    ```
-4. I servizi saranno disponibili ai seguenti indirizzi:
+5. The services will be available at the following addresses:
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8080/api
    - Keycloak: http://localhost:8180
-   - Database PostgreSQL: localhost:5432
+   - PostgreSQL Database: localhost:5432
 
-## Credenziali di accesso
+## Access Credentials
 
 ### Keycloak Admin Console
 - URL: http://localhost:8180/admin
 - Username: admin
 - Password: admin
 
-### Utenti predefiniti
-1. Amministratore:
+### Default Users
+1. Administrator:
    - Username: admin
    - Password: password
    - Email: mario.rossi@example.com
-   - Ruoli: admin, user
+   - Roles: admin, user
 
-2. Utente standard:
+2. Standard User:
    - Username: user
    - Password: password
    - Email: luigi.bianchi@example.com
-   - Ruoli: user
+   - Roles: user
 
-## Configurazione
+## Configuration
 
-Il frontend è configurato per connettersi automaticamente al backend e a Keycloak con le seguenti impostazioni:
-- API Backend: http://localhost:8080/api
+The frontend is configured to automatically connect to the backend and Keycloak with the following settings:
+- Backend API: http://localhost:8080/api
 - Keycloak: http://localhost:8180
 - Realm: resource-management
 - Client ID: resource-management-app
 
-## Risoluzione problemi
+## Troubleshooting
 
-### Backend non disponibile
-Se il backend non si avvia correttamente, potrebbe essere necessario modificare il comando di avvio nel `docker-compose.yml` in base alla struttura effettiva del progetto backend:
+### Backend not available
+If the backend does not start correctly, you may need to modify the startup command in `docker-compose.yml` based on the actual structure of the backend project:
 
-Per un progetto Maven:
+For a Maven project:
 ```yaml
 command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev"
 ```
 
-Per un progetto Gradle:
+For a Gradle project:
 ```yaml
 command: sh -c "./gradlew bootRun --args='--spring.profiles.active=dev'"
 ```
 
-### Errori di permessi
-Se riscontri errori di permessi durante l'avvio dei container:
+### Permission errors
+If you encounter permission errors when starting the containers:
 ```bash
 sudo chown -R $USER:$USER reservation-fe reservation-be keycloak
 chmod -R 755 reservation-fe reservation-be keycloak
 ```
 
-### Pulizia ambiente
-Per fermare e rimuovere tutti i container, le reti e i volumi:
+### Cleaning the environment
+To stop and remove all containers, networks, and volumes:
 ```bash
 docker-compose down -v
 ```
