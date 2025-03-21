@@ -88,6 +88,13 @@ Once you've created your own admin account, you can use it for all administrativ
    - 🔑 Keycloak: http://localhost:8180
    - 🗄️ PostgreSQL Database: localhost:5432
 
+## Demo Access 🌟
+
+A demo version of the application is available at:
+- 🔗 **URL:** https://204.216.215.139/
+- 👤 **Username:** admin
+- 🔒 **Password:** password
+
 ## Access Credentials 🔐
 
 ### Keycloak Admin Console
@@ -111,6 +118,19 @@ The frontend is configured to automatically connect to the backend and Keycloak 
 - 🆔 Client ID: resource-management-app
 
 ## Troubleshooting ⚠️
+
+### Backend not available
+If the backend does not start correctly, you may need to modify the startup command in `docker-compose.yml` based on the actual structure of the backend project:
+
+For a Maven project:
+```yaml
+command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev"
+```
+
+For a Gradle project:
+```yaml
+command: sh -c "./gradlew bootRun --args='--spring.profiles.active=dev'"
+```
 
 ### Permission errors
 If you encounter permission errors when starting the containers:
