@@ -119,19 +119,6 @@ The frontend is configured to automatically connect to the backend and Keycloak 
 
 ## Troubleshooting ⚠️
 
-### Backend not available
-If the backend does not start correctly, you may need to modify the startup command in `docker-compose.yml` based on the actual structure of the backend project:
-
-For a Maven project:
-```yaml
-command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=dev"
-```
-
-For a Gradle project:
-```yaml
-command: sh -c "./gradlew bootRun --args='--spring.profiles.active=dev'"
-```
-
 ### Permission errors
 If you encounter permission errors when starting the containers:
 ```bash
