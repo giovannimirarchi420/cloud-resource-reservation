@@ -23,14 +23,14 @@ services:
 
   # Backend service
   backend:
-    image: eclipse-temurin:17-jdk
+    image: eclipse-temurin:23-jdk
     container_name: reservation-backend
     working_dir: /app
     volumes:
       - ./reservation-be:/app
     ports:
       - "8080:8080"
-    command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=pro"
+    command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=test -Ptest"
     environment:
       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
       - KEYCLOAK_REALM=resource-management

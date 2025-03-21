@@ -49,32 +49,6 @@
       "attributes": {
         "avatar": ["MR"]
       }
-    },
-    {
-      "username": "user",
-      "email": "luigi.bianchi@example.com",
-      "enabled": true,
-      "firstName": "Luigi",
-      "lastName": "Bianchi",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password",
-          "temporary": false
-        }
-      ],
-      "realmRoles": [
-        "user"
-      ],
-      "clientRoles": {
-        "account": [
-          "manage-account",
-          "view-profile"
-        ]
-      },
-      "attributes": {
-        "avatar": ["LB"]
-      }
     }
   ],
   "clients": [
