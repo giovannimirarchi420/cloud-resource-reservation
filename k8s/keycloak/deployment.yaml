@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: resource-management
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:24.0.1
+        command: ["/opt/keycloak/bin/kc.sh"]
+        args: ["start-dev", "--hostname-strict-https=false", "--http-enabled=true", "--proxy-headers", "xforwarded", "--http-relative-path=/", "--hostname-strict=false", "--http-port=8180", "--hostname=204.216.215.139"]
+        ports:
+        - name: http
+          containerPort: 8180
+        envFrom:
+        - configMapRef:
+            name: keycloak-config
+        - secretRef:
+            name: keycloak-secret
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        readinessProbe:
+          httpGet:
+            path: /realms/master
+            port: 8180
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /realms/master
+            port: 8180
+          initialDelaySeconds: 60
+          timeoutSeconds: 5

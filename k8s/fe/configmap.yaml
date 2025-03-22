@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: resource-management-config-fe
+  namespace: resource-management
+data:
+  REACT_APP_API_URL: "http://api.resource-management.local/api"
+  REACT_APP_KEYCLOAK_URL: "http://keycloak.resource-management.local"
+  REACT_APP_KEYCLOAK_REALM: "resource-management"
+  REACT_APP_KEYCLOAK_CLIENT_ID: "resource-management-app"
+  NODE_ENV: "production"
