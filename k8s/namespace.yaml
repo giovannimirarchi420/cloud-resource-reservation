@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: resource-management
-  labels:
-    name: resource-management
