@@ -31,25 +31,7 @@ project-root/
 
 ## Getting Started 🚦
 
-After starting the containers with Docker Compose and ensuring all services are running properly, you can access the application using a bootstrap admin account:
-
-- 🔗 **URL:** http://localhost:3000
-- 👤 **Username:** admin
-- 🔒 **Password:** password
-
-### Creating Additional Admin Users 👥
-
-This bootstrap admin account is intended for initial setup only. To ensure proper functioning of the application, it's recommended to create your own admin account through the UI:
-
-1. Log in with the bootstrap admin credentials
-2. Navigate to Administration > User Management
-3. Click on "Add New User"
-4. Fill in the required information and select the "ADMIN" role
-5. Click "Save" to create the new admin user
-
-Once you've created your own admin account, you can use it for all administrative tasks within the system.
-
-## Setup Instructions 📝
+### Setup Instructions 📝
 
 1. Make sure the `reservation-fe` and `reservation-be` folders contain the respective source code
 2. Make the database initialization script executable:
@@ -87,6 +69,24 @@ Once you've created your own admin account, you can use it for all administrativ
    - 🔌 Backend API: http://localhost:8080/api
    - 🔑 Keycloak: http://localhost:8180
    - 🗄️ PostgreSQL Database: localhost:5432
+
+After starting the containers with Docker Compose and ensuring all services are running properly, you can access the application using a bootstrap admin account:
+
+- 🔗 **URL:** http://localhost:3000
+- 👤 **Username:** admin
+- 🔒 **Password:** password
+
+### Creating Additional Admin Users 👥
+
+This bootstrap admin account is intended for initial setup only. To ensure proper functioning of the application, it's recommended to create your own admin account through the UI:
+
+1. Log in with the bootstrap admin credentials
+2. Navigate to Administration > User Management
+3. Click on "Add New User"
+4. Fill in the required information and select the "ADMIN" role
+5. Click "Save" to create the new admin user
+
+Once you've created your own admin account, you can use it for all administrative tasks within the system.
 
 ## Demo Access 🌟
 
