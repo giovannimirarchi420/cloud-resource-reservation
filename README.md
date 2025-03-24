@@ -75,7 +75,7 @@ After starting the containers with Docker Compose and ensuring all services are 
 - 🔗 **URL:** http://localhost:3000
 - 👤 **Username:** admin
 - 🔒 **Password:** password
-- 
+  
 ## Demo Access 🌟
 
 A demo version of the application is available at:
