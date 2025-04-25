@@ -4,3 +4,6 @@
 [submodule "reservation-fe"]
 	path = reservation-fe
 	url = https://github.com/giovannimirarchi420/reservation-fe
+[submodule "reservation-event-processor"]
+	path = reservation-event-processor
+	url = https://github.com/giovannimirarchi420/reservation-event-processor

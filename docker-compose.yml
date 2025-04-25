@@ -57,7 +57,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=keycloak
-      - POSTGRES_MULTIPLE_DATABASES=reservation_db 
+      - POSTGRES_MULTIPLE_DATABASES=reservation_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init-multiple-postgres-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-postgres-dbs.sh
@@ -93,6 +93,17 @@ services:
       - "8180:8180"
     depends_on:
       - postgres
+    networks:
+      - reservation-network
+
+  # Test Webhook Client
+  webhook-client:
+    build: ./webhook-client
+    container_name: test-webhook-client
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./webhook-client:/app
     networks:
       - reservation-network
 
