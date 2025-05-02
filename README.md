@@ -105,6 +105,12 @@ The frontend is configured to automatically connect to the backend and Keycloak 
 - 🏰 Realm: resource-management
 - 🆔 Client ID: resource-management-app
 
+## Kubernetes Deployment with Helm ☸️
+
+A Helm chart is available for deploying this application on Kubernetes. You can find the chart and instructions in the following repository:
+
+- [reservation-helm-chart](https://github.com/giovannimirarchi420/reservation-helm-chart)
+
 ## Troubleshooting ⚠️
 
 ### Permission errors
