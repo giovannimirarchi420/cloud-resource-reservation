@@ -541,7 +541,10 @@
       },
       "attributes": {
         "avatar": ["MR"]
-      }
+      },
+      "groups": [
+        "polito"
+      ]
     },
     {
       "username": "gverdi",
@@ -568,7 +571,10 @@
       },
       "attributes": {
         "avatar": ["GV"]
-      }
+      },
+      "groups": [
+        "polito"
+      ]
     },
     {
       "username": "jsmith",
@@ -594,7 +600,10 @@
       },
       "attributes": {
         "avatar": ["JS"]
-      }
+      },
+      "groups": [
+        "polito"
+      ]
     }
   ],
   "clients": [
