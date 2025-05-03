@@ -34,18 +34,40 @@ services:
     environment:
       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
       - KEYCLOAK_REALM=resource-management
-      - KEYCLOAK_CLIENT_ID=resource-management-app
-      - KEYCLOAK_CLIENT_SECRET=a-super-mega-secret
+      - KEYCLOAK_CLIENT_ID=reservation-backend
+      - KEYCLOAK_CLIENT_SECRET=SAoFYQ94ek3EfyPWMkdMglo6Ga1yxQSb
       - FRONTEND_APP_URL=http://frontend:3000
       - SERVER_PORT=8080
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=reservation_db
+      - DB_URL=jdbc:postgresql://postgres:5432/reservation_db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     depends_on:
       - postgres
       - keycloak
+    networks:
+      - reservation-network
+
+  # Reservation Event Processor
+  event-processor:
+    build:
+      context: ./reservation-event-processor
+      args:
+        DB_TYPE: postgres # Use postgres for the test environment
+    container_name: reservation-event-processor
+    environment:
+      # SPRING_PROFILES_ACTIVE is set to 'pro,postgres' in the Dockerfile via ENV
+      - DB_URL=jdbc:postgresql://postgres:5432/reservation_db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
+      - KEYCLOAK_REALM=resource-management
+      - KEYCLOAK_CLIENT_ID=reservation-event-processor
+      - KEYCLOAK_CLIENT_SECRET=jNEhUZ4uYRUGCRUtbZ5OPPq7XVGyy3tQ
+      - SERVER_PORT=8081
+    ports:
+      - "8081:8081" # Expose the event processor's port
+    depends_on:
+      - postgres
     networks:
       - reservation-network
 
@@ -97,6 +119,8 @@ services:
       - reservation-network
 
   # Test Webhook Client
+  # This service is used to test the webhook functionality, you can configure it from the UI
+  # Use the following URL: http://webhook-client:8000/test/
   webhook-client:
     build: ./webhook-client
     container_name: test-webhook-client
