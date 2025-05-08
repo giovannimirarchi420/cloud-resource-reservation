@@ -1,12 +1,16 @@
 services:
   # Frontend React application
   frontend:
-    build:
-      context: ./reservation-fe
+    image: node:19-alpine
     container_name: reservation-frontend
+    working_dir: /app
+    volumes:
+      - ./reservation-fe:/app
     ports:
-      - "3000:80"
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
     environment:
+      - NODE_ENV=development
       - REACT_APP_API_URL=http://backend:8080/api
       - REACT_APP_KEYCLOAK_URL=http://keycloak:8180
       - REACT_APP_KEYCLOAK_REALM=resource-management
@@ -19,13 +23,14 @@ services:
 
   # Backend service
   backend:
-    build:
-      context: ./reservation-be
-      args:
-        DB_TYPE: postgres
+    image: eclipse-temurin:23-jdk
     container_name: reservation-backend
+    working_dir: /app
+    volumes:
+      - ./reservation-be:/app
     ports:
       - "8080:8080"
+    command: sh -c "./mvnw spring-boot:run -Dspring-boot.run.profiles=test -Ptest"
     environment:
       - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8180
       - KEYCLOAK_REALM=resource-management
